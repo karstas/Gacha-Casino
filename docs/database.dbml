@@ -1,0 +1,225 @@
+// Use DBML to define your database structure
+// Docs: https://dbml.dbdiagram.io/docs
+
+Enum user_role {
+  user
+  group_admin
+  admin
+}
+
+Enum card_gender {
+  male
+  female
+  others
+}
+
+Table user {
+  id uuid [pk]
+  role user_role [not null, default: 'user']
+  email varchar [unique, not null]
+  password varchar [not null]
+  profile_picture varchar [note: 'The url of the profile picture']
+  created_at timestamp [not null, default: `now()`]
+  created_by uuid
+  updated_at timestamp [not null, default: `now()`]
+  updated_by uuid
+  deleted_at timestamp
+  deleted_by uuid
+}
+
+Table group {
+  id uuid [pk]
+  name varchar [unique, not null]
+  created_at timestamp [not null, default: `now()`]
+  created_by uuid
+  updated_at timestamp [not null, default: `now()`]
+  updated_by uuid
+  deleted_at timestamp
+  deleted_by uuid
+}
+
+Table group_user {
+  id uuid [pk]
+  group_id uuid [not null, ref: > group.id]
+  user_id uuid [not null, ref: > user.id]
+  nickname varchar [note: 'The nickname of the user in the group']
+  wallet int [default: 0, note: 'The amount of money the user has in the group']
+  created_at timestamp [not null, default: `now()`]
+  created_by uuid
+  updated_at timestamp [not null, default: `now()`]
+  updated_by uuid
+  deleted_at timestamp
+  deleted_by uuid
+
+  Indexes {
+    (group_id, user_id) [pk]
+  }
+}
+
+Table card {
+  id uuid [pk]
+  name varchar [unique, not null]
+  gender card_gender [not null]
+  claim_rank int [not null]
+  like_rank int [not null]
+  value int [not null, note: 'The price of the card in the game']
+  created_at timestamp [not null, default: `now()`]
+  created_by uuid
+  updated_at timestamp [not null, default: `now()`]
+  updated_by uuid
+  deleted_at timestamp
+  deleted_by uuid
+}
+
+Table image {
+  id uuid [pk]
+  card_id uuid [not null, ref: > card.id]
+  artist varchar [not null, note: 'The name of the artist of the image']
+  url varchar [not null]
+  created_at timestamp [not null, default: `now()`]
+  created_by uuid
+  updated_at timestamp [not null, default: `now()`]
+  updated_by uuid
+  deleted_at timestamp
+  deleted_by uuid
+}
+
+Table group_card {
+  group_user_id uuid [not null, ref: > group_user.id]
+  card_id uuid [not null, ref: > card.id]
+  is_enabled boolean [not null, default: true]
+  created_at timestamp [not null, default: `now()`]
+  created_by uuid
+  updated_at timestamp [not null, default: `now()`]
+  updated_by uuid
+  deleted_at timestamp
+  deleted_by uuid
+
+  Indexes {
+    (group_user_id, card_id) [pk]
+  }
+}
+
+Table set {
+  id uuid [pk]
+  name varchar [unique, not null]
+  is_nsfw boolean [not null, default: false]
+  created_at timestamp [not null, default: `now()`]
+  created_by uuid
+  updated_at timestamp [not null, default: `now()`]
+  updated_by uuid
+  deleted_at timestamp
+  deleted_by uuid
+}
+
+Table group_set {
+  group_id uuid [not null, ref: > group.id]
+  set_id uuid [not null, ref: > set.id]
+  is_enabled boolean [not null, default: true]
+  created_at timestamp [not null, default: `now()`]
+  created_by uuid
+  updated_at timestamp [not null, default: `now()`]
+  updated_by uuid
+  deleted_at timestamp
+  deleted_by uuid
+
+  Indexes {
+    (group_id, set_id) [pk]
+  }
+}
+
+Table tag {
+  id uuid [pk]
+  name varchar [unique, not null]
+  description varchar [not null]
+  created_at timestamp [not null, default: `now()`]
+  created_by uuid
+  updated_at timestamp [not null, default: `now()`]
+  updated_by uuid
+  deleted_at timestamp
+  deleted_by uuid
+}
+
+Table set_tag {
+  set_id uuid [not null, ref: > set.id]
+  tag_id uuid [not null, ref: > tag.id]
+  created_at timestamp [not null, default: `now()`]
+  created_by uuid
+  updated_at timestamp [not null, default: `now()`]
+  updated_by uuid
+  deleted_at timestamp
+  deleted_by uuid
+
+  Indexes {
+    (set_id, tag_id) [pk]
+  }
+}
+
+Table card_tag {
+  card_id uuid [not null, ref: > card.id]
+  tag_id uuid [not null, ref: > tag.id]
+  created_at timestamp
+  created_by uuid
+  updated_at timestamp
+  updated_by uuid
+  deleted_at timestamp
+  deleted_by uuid
+
+  Indexes {
+    (card_id, tag_id) [pk]
+  }
+}
+
+Table group_disabled_tags {
+  group_id uuid [not null, ref: > group.id]
+  tag_id uuid [not null, ref: > tag.id]
+  created_at timestamp [not null, default: `now()`]
+  created_by uuid
+  updated_at timestamp [not null, default: `now()`]
+  updated_by uuid
+  deleted_at timestamp
+  deleted_by uuid
+
+  Indexes {
+    (group_id, tag_id) [pk]
+  }
+}
+
+Table group_user_disabled_tags {
+  group_user_id uuid [not null, ref: > group_user.id]
+  tag_id uuid [not null, ref: > tag.id]
+  created_at timestamp [not null, default: `now()`]
+  created_by uuid
+  updated_at timestamp [not null, default: `now()`]
+  updated_by uuid
+  deleted_at timestamp
+  deleted_by uuid
+
+  Indexes {
+    (group_user_id, tag_id) [pk]
+  }
+}
+
+Table card_alias {
+  id uuid [pk]
+  card_id uuid [not null, ref: > card.id]
+  alias varchar [unique, not null, note: 'Other names for a card']
+  created_at timestamp [not null, default: `now()`]
+  created_by uuid
+  updated_at timestamp [not null, default: `now()`]
+  updated_by uuid
+  deleted_at timestamp
+  deleted_by uuid
+}
+
+Table set_alias {
+  id uuid [pk]
+  set_id uuid [not null, ref: > set.id]
+  alias varchar [unique, not null, note: 'Other names for a set']
+  created_at timestamp [not null, default: `now()`]
+  created_by uuid
+  updated_at timestamp [not null, default: `now()`]
+  updated_by uuid
+  deleted_at timestamp
+  deleted_by uuid
+}
