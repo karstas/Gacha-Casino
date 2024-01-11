@@ -39,7 +39,6 @@ Table group {
 }
 
 Table group_user {
-  id uuid [pk]
   group_id uuid [not null, ref: > group.id]
   user_id uuid [not null, ref: > user.id]
   nickname varchar [note: 'The nickname of the user in the group']
@@ -85,7 +84,8 @@ Table image {
 }
 
 Table group_card {
-  group_user_id uuid [not null, ref: > group_user.id]
+  group_id uuid [not null, ref: > group.id]
+  user_id uuid [not null, ref: > user.id]
   card_id uuid [not null, ref: > card.id]
   is_enabled boolean [not null, default: true]
   created_at timestamp [not null, default: `now()`]
@@ -96,7 +96,7 @@ Table group_card {
   deleted_by uuid
 
   Indexes {
-    (group_user_id, card_id) [pk]
+    (group_id, user_id, card_id) [pk]
   }
 }
 
@@ -186,7 +186,8 @@ Table group_disabled_tags {
 }
 
 Table group_user_disabled_tags {
-  group_user_id uuid [not null, ref: > group_user.id]
+  group_id uuid [not null, ref: > group.id]
+  user_id uuid [not null, ref: > user.id]
   tag_id uuid [not null, ref: > tag.id]
   created_at timestamp [not null, default: `now()`]
   created_by uuid
@@ -196,7 +197,7 @@ Table group_user_disabled_tags {
   deleted_by uuid
 
   Indexes {
-    (group_user_id, tag_id) [pk]
+    (group_id, user_id, tag_id) [pk]
   }
 }
 
