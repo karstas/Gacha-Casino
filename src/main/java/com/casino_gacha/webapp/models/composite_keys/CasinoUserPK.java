@@ -1,4 +1,4 @@
-package com.casino_gacha.webapp.models.coumpound_keys;
+package com.casino_gacha.webapp.models.composite_keys;
 
 import java.io.Serializable;
 import java.util.Objects;

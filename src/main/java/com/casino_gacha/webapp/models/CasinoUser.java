@@ -1,6 +1,6 @@
 package com.casino_gacha.webapp.models;
 
-import com.casino_gacha.webapp.models.coumpound_keys.CasinoUserPK;
+import com.casino_gacha.webapp.models.composite_keys.CasinoUserPK;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
