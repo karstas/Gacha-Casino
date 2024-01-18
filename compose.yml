@@ -10,3 +10,5 @@ services:
       POSTGRES_USER: spring
       POSTGRES_PASSWORD: password
       POSTGRES_DB: db_name
+    volumes:
+      - ./database/setup:/docker-entrypoint-initdb.d

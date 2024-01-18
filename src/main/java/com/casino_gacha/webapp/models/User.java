@@ -1,13 +1,12 @@
 package com.casino_gacha.webapp.models;
 
 import java.sql.Timestamp;
-import java.util.List;
 import java.util.UUID;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
-import com.casino_gacha.webapp.enums.CardGender;
+import com.casino_gacha.webapp.enums.UserRole;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -16,36 +15,32 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "card")
-public class Card {
+@Table(name = "\"user\"")
+public class User {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   @Column(name = "id", nullable = false, columnDefinition = "uuid default uuid_generate_v4()")
   private UUID id;
 
-  @Column(name = "name", nullable = false, unique = true)
+  @Enumerated(EnumType.STRING)
+  @Column(name = "user_role", nullable = false, columnDefinition = "varchar default 'USER'")
+  private UserRole userRole;
+
+  @Column(name = "name", nullable = false)
   private String name;
 
-  @Enumerated(EnumType.STRING)
-  @Column(name = "gender", nullable = false)
-  private CardGender gender;
+  @Column(name = "email", nullable = false, unique = true)
+  private String email;
 
-  @Column(name = "claim_rank", nullable = false, unique = true)
-  private int claimRank;
+  @Column(name = "password", nullable = false)
+  private String password;
 
-  @Column(name = "like_rank", nullable = false, unique = true)
-  private int likeRank;
-
-  @Column(name = "value", nullable = false)
-  private int value;
-
-  @OneToMany(mappedBy = "id")
-  private List<Image> images;
+  @Column(name = "profile_picture")
+  private String profilePicture;
 
   @CreatedDate
   @Column(name = "created_at", nullable = false)
@@ -75,6 +70,14 @@ public class Card {
     return id;
   }
 
+  public void setUserRole(UserRole userRole) {
+    this.userRole = userRole;
+  }
+
+  public UserRole getUserRole() {
+    return userRole;
+  }
+
   public void setName(String name) {
     this.name = name;
   }
@@ -83,36 +86,28 @@ public class Card {
     return name;
   }
 
-  public void setGender(CardGender gender) {
-    this.gender = gender;
+  public void setEmail(String email) {
+    this.email = email;
   }
 
-  public CardGender getGender() {
-    return gender;
+  public String getEmail() {
+    return email;
   }
 
-  public void setClaimRank(int claimRank) {
-    this.claimRank = claimRank;
+  public void setPassword(String password) {
+    this.password = password;
   }
 
-  public int getClaimRank() {
-    return claimRank;
+  public String getPassword() {
+    return password;
   }
 
-  public void setLikeRank(int likeRank) {
-    this.likeRank = likeRank;
+  public void setProfilePicture(String profilePicture) {
+    this.profilePicture = profilePicture;
   }
 
-  public int getLikeRank() {
-    return likeRank;
-  }
-
-  public void setValue(int value) {
-    this.value = value;
-  }
-
-  public int getValue() {
-    return value;
+  public String getProfilePicture() {
+    return profilePicture;
   }
 
   public void setCreatedAt(Timestamp createdAt) {
@@ -162,4 +157,5 @@ public class Card {
   public UUID getDeletedBy() {
     return deletedBy;
   }
+
 }
