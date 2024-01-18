@@ -3,7 +3,7 @@
 
 Enum user_role {
   user
-  group_admin
+  casino_admin
   admin
 }
 
@@ -16,6 +16,7 @@ Enum card_gender {
 Table user {
   id uuid [pk]
   role user_role [not null, default: 'user']
+  username varchar [unique, not null]
   email varchar [unique, not null]
   password varchar [not null]
   profile_picture varchar [note: 'The url of the profile picture']
@@ -27,7 +28,7 @@ Table user {
   deleted_by uuid
 }
 
-Table group {
+Table casino {
   id uuid [pk]
   name varchar [unique, not null]
   created_at timestamp [not null, default: `now()`]
@@ -38,11 +39,11 @@ Table group {
   deleted_by uuid
 }
 
-Table group_user {
-  group_id uuid [not null, ref: > group.id]
+Table casino_user {
+  casino_id uuid [not null, ref: > casino.id]
   user_id uuid [not null, ref: > user.id]
-  nickname varchar [note: 'The nickname of the user in the group']
-  wallet int [default: 0, note: 'The amount of money the user has in the group']
+  nickname varchar [note: 'The nickname of the user in the casino']
+  wallet int [default: 0, note: 'The amount of money the user has in the casino']
   created_at timestamp [not null, default: `now()`]
   created_by uuid
   updated_at timestamp [not null, default: `now()`]
@@ -51,7 +52,7 @@ Table group_user {
   deleted_by uuid
 
   Indexes {
-    (group_id, user_id) [pk]
+    (casino_id, user_id) [pk]
   }
 }
 
@@ -83,8 +84,8 @@ Table image {
   deleted_by uuid
 }
 
-Table group_card {
-  group_id uuid [not null, ref: > group.id]
+Table casino_card {
+  casino_id uuid [not null, ref: > casino.id]
   user_id uuid [not null, ref: > user.id]
   card_id uuid [not null, ref: > card.id]
   is_enabled boolean [not null, default: true]
@@ -96,7 +97,7 @@ Table group_card {
   deleted_by uuid
 
   Indexes {
-    (group_id, user_id, card_id) [pk]
+    (casino_id, user_id, card_id) [pk]
   }
 }
 
@@ -112,8 +113,8 @@ Table set {
   deleted_by uuid
 }
 
-Table group_set {
-  group_id uuid [not null, ref: > group.id]
+Table casino_set {
+  casino_id uuid [not null, ref: > casino.id]
   set_id uuid [not null, ref: > set.id]
   is_enabled boolean [not null, default: true]
   created_at timestamp [not null, default: `now()`]
@@ -124,7 +125,7 @@ Table group_set {
   deleted_by uuid
 
   Indexes {
-    (group_id, set_id) [pk]
+    (casino_id, set_id) [pk]
   }
 }
 
@@ -170,8 +171,8 @@ Table card_tag {
   }
 }
 
-Table group_disabled_tags {
-  group_id uuid [not null, ref: > group.id]
+Table casino_disabled_tags {
+  casino_id uuid [not null, ref: > casino.id]
   tag_id uuid [not null, ref: > tag.id]
   created_at timestamp [not null, default: `now()`]
   created_by uuid
@@ -181,12 +182,12 @@ Table group_disabled_tags {
   deleted_by uuid
 
   Indexes {
-    (group_id, tag_id) [pk]
+    (casino_id, tag_id) [pk]
   }
 }
 
-Table group_user_disabled_tags {
-  group_id uuid [not null, ref: > group.id]
+Table casino_user_disabled_tags {
+  casino_id uuid [not null, ref: > casino.id]
   user_id uuid [not null, ref: > user.id]
   tag_id uuid [not null, ref: > tag.id]
   created_at timestamp [not null, default: `now()`]
@@ -197,7 +198,7 @@ Table group_user_disabled_tags {
   deleted_by uuid
 
   Indexes {
-    (group_id, user_id, tag_id) [pk]
+    (casino_id, user_id, tag_id) [pk]
   }
 }
 
