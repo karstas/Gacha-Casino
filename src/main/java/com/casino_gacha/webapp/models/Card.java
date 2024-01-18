@@ -1,32 +1,29 @@
 package com.casino_gacha.webapp.models;
 
-import java.util.UUID;
+import com.casino_gacha.webapp.enums.CardGender;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "card")
-public class Card {
-  @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
-  private UUID id;
+public class Card extends Base {
+
+  @Column(name = "name", nullable = false, unique = true)
   private String name;
-  private String gender;
+
+  @Column(name = "gender", nullable = false)
+  private CardGender gender;
+
+  @Column(name = "claim_rank", nullable = false, unique = true)
   private int claimRank;
+
+  @Column(name = "like_rank", nullable = false, unique = true)
   private int likeRank;
+
+  @Column(name = "value", nullable = false)
   private int value;
-
-  public void setId(UUID id) {
-    this.id = id;
-  }
-
-  public UUID getId() {
-    return id;
-  }
 
   public void setName(String name) {
     this.name = name;
@@ -36,11 +33,11 @@ public class Card {
     return name;
   }
 
-  public void setGender(String gender) {
+  public void setGender(CardGender gender) {
     this.gender = gender;
   }
 
-  public String getGender() {
+  public CardGender getGender() {
     return gender;
   }
 
