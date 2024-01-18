@@ -76,22 +76,6 @@ public class Tag {
     return description;
   }
 
-  public void setPassword(String password) {
-    this.password = password;
-  }
-
-  public String getPassword() {
-    return password;
-  }
-
-  public void setProfilePicture(String profilePicture) {
-    this.profilePicture = profilePicture;
-  }
-
-  public String getProfilePicture() {
-    return profilePicture;
-  }
-
   public void setCreatedAt(Timestamp createdAt) {
     this.createdAt = createdAt;
   }
