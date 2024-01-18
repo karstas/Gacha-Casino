@@ -59,8 +59,8 @@ Table card {
   id uuid [pk]
   name varchar [unique, not null]
   gender card_gender [not null]
-  claim_rank int [not null]
-  like_rank int [not null]
+  claim_rank int [unique, not null]
+  like_rank int [unique, not null]
   value int [not null, note: 'The price of the card in the game']
   created_at timestamp [not null, default: `now()`]
   created_by uuid
