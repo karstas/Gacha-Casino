@@ -11,7 +11,14 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+
 @Entity
+@Data
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
 @Table(name = "image")
 public class Image extends Base {
 
@@ -29,28 +36,4 @@ public class Image extends Base {
 
   @Column(name = "url", nullable = false, unique = true)
   private String url;
-
-  public void setId(UUID id) {
-    this.id = id;
-  }
-
-  public UUID getId() {
-    return id;
-  }
-
-  public void setArtist(String artist) {
-    this.artist = artist;
-  }
-
-  public String getArtist() {
-    return artist;
-  }
-
-  public void setUrl(String url) {
-    this.url = url;
-  }
-
-  public String getUrl() {
-    return url;
-  }
 }

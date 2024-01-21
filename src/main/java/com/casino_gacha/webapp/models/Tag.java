@@ -9,7 +9,14 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+
 @Entity
+@Data
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
 @Table(name = "tag")
 public class Tag extends Base {
 
@@ -23,28 +30,4 @@ public class Tag extends Base {
 
   @Column(name = "description", nullable = false)
   private String description;
-
-  public void setId(UUID id) {
-    this.id = id;
-  }
-
-  public UUID getId() {
-    return id;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public void setDescription(String description) {
-    this.description = description;
-  }
-
-  public String getDescription() {
-    return description;
-  }
 }

@@ -7,7 +7,14 @@ import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+
 @Entity
+@Data
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
 @Table(name = "casino_user")
 public class CasinoUser extends Base {
 
@@ -19,20 +26,4 @@ public class CasinoUser extends Base {
 
   @Column(name = "wallet", nullable = false, columnDefinition = "int default 0")
   private int wallet;
-
-  public void setNickname(String nickname) {
-    this.nickname = nickname;
-  }
-
-  public String getNickname() {
-    return nickname;
-  }
-
-  public void setWallet(int wallet) {
-    this.wallet = wallet;
-  }
-
-  public int getWallet() {
-    return wallet;
-  }
 }

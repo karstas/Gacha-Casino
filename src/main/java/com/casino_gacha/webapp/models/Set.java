@@ -9,9 +9,16 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+
 @Entity
+@Data
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
 @Table(name = "set")
-public class Set {
+public class Set extends Base {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
@@ -22,29 +29,5 @@ public class Set {
   private String name;
 
   @Column(name = "is_nsfw", nullable = false)
-  private boolean isNsfw = false;
-
-  public void setId(UUID id) {
-    this.id = id;
-  }
-
-  public UUID getId() {
-    return id;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public void setIsNsfw(boolean isNsfw) {
-    this.isNsfw = isNsfw;
-  }
-
-  public boolean getIsNsfw() {
-    return isNsfw;
-  }
+  private boolean nsfw = false;
 }
