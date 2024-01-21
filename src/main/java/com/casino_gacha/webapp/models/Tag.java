@@ -22,7 +22,7 @@ public class Tag extends Base {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
-  @Column(name = "id", nullable = false, columnDefinition = "uuid default uuid_generate_v4()")
+  @Column(name = "id", nullable = false, columnDefinition = "uuid default uuid_generate_v4()", updatable = false)
   private UUID id;
 
   @Column(name = "name", nullable = false, unique = true)
