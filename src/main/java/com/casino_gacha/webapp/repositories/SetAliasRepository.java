@@ -4,8 +4,8 @@ import java.util.UUID;
 
 import org.springframework.data.repository.CrudRepository;
 
-import com.casino_gacha.webapp.models.Card;
+import com.casino_gacha.webapp.models.SetAlias;
 
-public interface CardRepository extends CrudRepository<Card, UUID> {
+public interface SetAliasRepository extends CrudRepository<SetAlias, UUID> {
 
 }
